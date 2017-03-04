@@ -1,0 +1,23 @@
+#
+#  Hosts file for 2 node RAC
+#
+127.0.0.1 	localhost localhost.localdomain localhost4 localhost4.localdomain4
+
+# Public
+<%= @publicIpNode1 %>	<%=@hostnameNode1%>
+<%= @publicIpNode2 %>	<%=@hostnameNode2%>
+
+# Virtual
+<%= @virtualIpNode1 %>	<%=@hostnameNode1%>-vip
+<%= @virtualIpNode2 %>	<%=@hostnameNode2%>-vip
+
+# Private Interconnect
+<%= @privateIpNode1 %>	<%=@hostnameNode1%>-priv
+<%= @privateIpNode2 %>	<%=@hostnameNode2%>-priv
+
+# SCAN
+<%= @scanIp1 %>	<%=@clusterName%>-scan
+<%= @scanIp2 %>	<%=@clusterName%>-scan
+<%= @scanIp3 %>	<%=@clusterName%>-scan
+
+::1 		localhost localhost.localdomain localhost6 localhost6.localdomain6
