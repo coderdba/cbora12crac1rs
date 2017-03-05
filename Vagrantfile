@@ -127,7 +127,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       #'recipe[cbora12crac1rs::users_and_groups]'
       #'recipe[cbora12crac1rs::update_etc_hosts]'
       #'recipe[cbora12crac1rs::install_sshpass]'
-      'recipe[cbora12crac1rs::setup_ssh]'
+      #'recipe[cbora12crac1rs::setup_ssh]'
+      'recipe[cbora12crac1rs::setup_ssh_grid]'
       #'recipe[cbora12crac1rs::directories]'
       #'recipe[cbora12crac1rs::configure_oracleasm]'
       #'recipe[cbora12crac1rs::prepare_asm_disks]'
@@ -196,7 +197,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           #'recipe[cbora12crac1rs::users_and_groups]'
           #'recipe[cbora12crac1rs::update_etc_hosts]'
           #'recipe[cbora12crac1rs::install_sshpass]'
-          'recipe[cbora12crac1rs::setup_ssh]'
+          #'recipe[cbora12crac1rs::setup_ssh]'
+          'recipe[cbora12crac1rs::setup_ssh_grid]'
           #'recipe[cbora12crac1rs::directories]'
           ]
         end
