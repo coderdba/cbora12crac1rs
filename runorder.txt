@@ -33,10 +33,10 @@ uid=54321(oracle) gid=54321(oinstall) groups=54321(oinstall),54322(dba)
 11. not needed??as configure_oracleasm does both nodes:
       rac1n2 - 'recipe[cbora12crac1::configure_oracleasm]'
 
-12a. rac1n1 - set ownership of /dev/sdb etc to grid:oinstall
-12b. rac1n1 - set the permission permanently in /etc/rc.d
-13a. rac1n2 - set ownership of /dev/sdb etc to grid:oinstall
-13b. rac1n2 - set the permission permanently in /etc/rc.d
+12a. rac1n1 - set ownership of /dev/sdb etc to grid:oinstall - TBD in cookbook
+12b. rac1n1 - set the permission permanently in /etc/rc.d - TBD in cookbook
+13a. rac1n2 - set ownership of /dev/sdb etc to grid:oinstall - TBD in cookbook
+13b. rac1n2 - set the permission permanently in /etc/rc.d - TBD in cookbook
 
 TO INSTALL GRID SOFTWARE:
 On rac1n1 :
