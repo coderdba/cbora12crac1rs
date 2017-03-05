@@ -40,6 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "rac1n1" do |node|  # node1
     node.vm.hostname = "rac1n1"
     node.vm.network "private_network", ip: "192.168.0.111", virtualbox__intnet: true  # public
+    #node.vm.network "private_network", ip: "192.168.0.121", virtualbox__intnet: true  # virtual
     node.vm.network "private_network", ip: "10.10.10.111", virtualbox__intnet: true   # private interconnect
 
     config.vm.provider "virtualbox" do |vb|  # node1 customize
@@ -128,7 +129,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       #'recipe[cbora12crac1rs::update_etc_hosts]'
       #'recipe[cbora12crac1rs::install_sshpass]'
       #'recipe[cbora12crac1rs::setup_ssh]'
-      'recipe[cbora12crac1rs::setup_ssh_grid]'
+      #'recipe[cbora12crac1rs::setup_ssh_grid]'
       #'recipe[cbora12crac1rs::directories]'
       #'recipe[cbora12crac1rs::configure_oracleasm]'
       #'recipe[cbora12crac1rs::prepare_asm_disks]'
@@ -140,6 +141,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "rac1n2" do |node| # node2
     node.vm.hostname = "rac1n2"
     node.vm.network "private_network", ip: "192.168.0.112", virtualbox__intnet: true  # public
+    #node.vm.network "private_network", ip: "192.168.0.122", virtualbox__intnet: true   # virtual
     node.vm.network "private_network", ip: "10.10.10.112", virtualbox__intnet: true   # private interconnect
 
         config.vm.provider "virtualbox" do |vb|  # node2 customize
@@ -198,7 +200,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           #'recipe[cbora12crac1rs::update_etc_hosts]'
           #'recipe[cbora12crac1rs::install_sshpass]'
           #'recipe[cbora12crac1rs::setup_ssh]'
-          'recipe[cbora12crac1rs::setup_ssh_grid]'
+          #'recipe[cbora12crac1rs::setup_ssh_grid]'
           #'recipe[cbora12crac1rs::directories]'
           ]
         end
