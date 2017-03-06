@@ -42,7 +42,7 @@ default['gridBase']['dirName']      = '/u01/app/gridbase'
 
 # Directory Ownership
 default['oraBase']['dirOwner']     = 'oracle'
-default['oraInventory']['dirOwner']   = 'oracle'
+default['oraInventory']['dirOwner']   = 'grid'
 default['gridHome']['dirOwner']       = 'grid'
 default['gridBase']['dirOwner']       = 'grid'
 
