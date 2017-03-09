@@ -25,7 +25,9 @@ uid=54321(oracle) gid=54321(oinstall) groups=54321(oinstall),54322(dba)
 5. rac1n1 - 'recipe[cbora12crac1::install_sshpass]'
 6. rac1n2 - 'recipe[cbora12crac1::install_sshpass]'
 7. rac1n1 - 'recipe[cbora12crac1::setup_ssh]'
+7a. rac1n1 - 'recipe[cbora12crac1::setup_ssh_grid]'
 8. rac1n2 - 'recipe[cbora12crac1::setup_ssh]'
+8a. rac1n2 - 'recipe[cbora12crac1::setup_ssh_grid]'
 8. rac1n1 - 'recipe[cbora12crac1::directories]'
 9. rac1n2 - 'recipe[cbora12crac1::directories]'
 10. rac1n1 - 'recipe[cbora12crac1::configure_oracleasm]','recipe[cbora12crac1::prepare_asm_disks]'
@@ -38,11 +40,16 @@ uid=54321(oracle) gid=54321(oinstall) groups=54321(oinstall),54322(dba)
 13a. rac1n2 - set ownership of /dev/sdb etc to grid:oinstall - TBD in cookbook
 13b. rac1n2 - set the permission permanently in /etc/rc.d - TBD in cookbook
 
-TO INSTALL GRID SOFTWARE:
+After this,
+Install grid/clusterware software
+Install oracle software
+See main steps below
+
+INSTALL GRID SOFTWARE:
 On rac1n1 :
 Logon/sudo to 'grid' user
 cp /vagrant/grid_install.rsp /tmp/grid_install.rsp
-cd /stage-grid (which is a shared folder with laptop)
+cd /stage-grid (which is a shared folder with laptop) and is the unzipped grid software folder 'grid' renamed as stage-grid
 nohup ./runInstaller -silent -responseFile /tmp/grid_install.rsp -showProgress -ignorePrereq > 1.out 2>> 1.out &
 
 SCREEN OUTPUT AND POST INSTALL STEPS:
@@ -170,3 +177,10 @@ ADD TO .bash_profile of both nodes' grid user as follows:
 export ORACLE_HOME=/u01/app/gridhome12c
 export PATH=$PATH:/u01/app/gridhome12c/bin
 export TNS_ADMIN=/usr/local/tns
+
+INSTALL DB SOFTWARE
+Logon to oracle id
+cd /stage-database - which is the shared folder of the VM with laptop.
+/stage-database is the 'database' folder from software unzip - and renamed from database to stage-database
+Copy /vagrant/db_install.rsp to /tmp
+./runInstaller -silent -responseFile /tmp/db.rsp -showProgress -ignorePrereq

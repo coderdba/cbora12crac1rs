@@ -115,7 +115,7 @@ ORACLE_BASE=/u01/app/gridbase
 #-------------------------------------------------------------------------------
 # Specify the complete path of the Oracle Home.
 #-------------------------------------------------------------------------------
-ORACLE_HOME=/u01/app/gridhome12c
+ORACLE_HOME=/u01/app/gridhome12c1
 
 ################################################################################
 #                                                                              #
@@ -372,7 +372,6 @@ oracle.install.asm.diskGroup.AUSize=1
 #
 #-------------------------------------------------------------------------------
 oracle.install.asm.diskGroup.disks=ORCL:DISK01,ORCL:DISK02,ORCL:DISK03
-#oracle.install.asm.diskGroup.disks=DISK01,DISK02,DISK03
 
 #-------------------------------------------------------------------------------
 # The disk discovery string to be used to discover the disks used create a ASM DiskGroup
@@ -384,8 +383,7 @@ oracle.install.asm.diskGroup.disks=ORCL:DISK01,ORCL:DISK02,ORCL:DISK03
 #     oracle.install.asm.diskGroup.diskDiscoveryString=\\.\ORCLDISK*
 #
 #-------------------------------------------------------------------------------
-oracle.install.asm.diskGroup.diskDiscoveryString='ORCL:*'
-#oracle.install.asm.diskGroup.diskDiscoveryString=*
+oracle.install.asm.diskGroup.diskDiscoveryString=ORCL:*
 
 #-------------------------------------------------------------------------------
 # oracle.install.asm.monitorPassword=password
