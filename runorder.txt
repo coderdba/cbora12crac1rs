@@ -183,4 +183,4 @@ Logon to oracle id
 cd /stage-database - which is the shared folder of the VM with laptop.
 /stage-database is the 'database' folder from software unzip - and renamed from database to stage-database
 Copy /vagrant/db_install.rsp to /tmp
-./runInstaller -silent -responseFile /tmp/db.rsp -showProgress -ignorePrereq
+./runInstaller -silent -responseFile /tmp/db_install.rsp -showProgress -ignorePrereq
