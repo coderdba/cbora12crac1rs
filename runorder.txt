@@ -16,10 +16,14 @@ uid=54321(oracle) gid=54321(oinstall) groups=54321(oinstall),54322(dba)
 1a. rac1n1 - logon and change password of 'oracle' user to 'oracle' (or as in attributes/default.rb) - TBD in cookbook
 1b. rac1n1 - logon and change password of 'grid' user to 'oracle' (or as in attributes/default.rb) - TBD in cookbook
 1c. rac1n1 - set firewall off (service firewalld stop) - TBD in cookbook
+1d. rac1n1 - set password of 'root' user to 'root'
+1e. rac1n1 - if /home/grid does not exist, create it and change its owner to grid:oinstall
 2. rac1n2 - 'recipe[cbora12crac1::users_and_groups]'
 2a. rac1n2 - logon and change password of 'oracle' user to 'oracle' (or as in attributes/default.rb) - TBD in cookbook
 2b. rac1n2 - logon and change password of 'grid' user to 'oracle' (or as in attributes/default.rb) - TBD in cookbook
 2c. rac1n2 - set firewall off (service firewalld stop) - TBD in cookbook
+2d. rac1n1 - set password of 'root' user to 'root'
+2e. rac1n1 - if /home/grid does not exist, create it and change its owner to grid:oinstall
 3. rac1n1 - 'recipe[cbora12crac1::update_etc_hosts]'
 4. rac1n2 - 'recipe[cbora12crac1::update_etc_hosts]'
 5. rac1n1 - 'recipe[cbora12crac1::install_sshpass]'
