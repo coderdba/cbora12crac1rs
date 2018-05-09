@@ -44,6 +44,10 @@ uid=54321(oracle) gid=54321(oinstall) groups=54321(oinstall),54322(dba)
 13a. NOT REQUIRED rac1n2 - set ownership of /dev/sdb etc to grid:oinstall - TBD in cookbook
 13b. NOT REQUIRED rac1n2 - set the permission permanently in /etc/rc.d - TBD in cookbook
 
+===============================================================================================================
+NOW - IMPORTANT - COMMENT OUT ALL RUN-LIST RECIPES - SO THAT THEY WONT KICK IN DURING RESTARTS OF VM's
+===============================================================================================================
+
 After this,
 Install grid/clusterware software
 Install oracle software
