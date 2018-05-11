@@ -26,7 +26,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # If this value is a shorthand to a box in Vagrant Cloud then
   # config.vm.box_url doesn't need to be specified.
   #config.vm.box = 'chef/ubuntu-14.04'
-  config.vm.box = 'oel72-64-model'
+  #config.vm.box = 'oel72-64-model'
+  #config.vm.box = 'http://cloud.terry.im/vagrant/oraclelinux-7-x86_64.box'
+  #config.vm.box = 'racattack/oracle65'
+  #config.vm.box_url = 'https://storage.us2.oraclecloud.com/v1/istoilis-istoilis/vagrant/oel65-64.box'
+
   config.ssh.password = 'vagrant'
   config.vm.synced_folder  "../../stage/Oracle12c/grid", "/stage-grid"
   config.vm.synced_folder  "../../stage/Oracle12c/database", "/stage-database"
