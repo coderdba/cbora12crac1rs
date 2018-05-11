@@ -60,12 +60,12 @@ On rac1n1 :
 Logon/sudo to 'grid' user
 cp /vagrant/grid_install.rsp /tmp/grid_install.rsp
 cd /stage-grid (which is a shared folder with laptop) and is the unzipped grid software folder 'grid' renamed as stage-grid
-nohup ./runInstaller -silent -responseFile /tmp/grid_install.rsp -showProgress -ignorePrereq > 1.out 2>> 1.out &
+nohup ./runInstaller -silent -responseFile /tmp/grid_install.rsp -showProgress -ignorePrereq -ignoreSysPrereqs > 1.out 2>> 1.out &
 
 SCREEN OUTPUT AND POST INSTALL STEPS:
 [grid@rac1n1 stage-grid]$ cat runinstall.sh
-./runInstaller -silent -responseFile /tmp/grid_install.rsp -showProgress -ignorePrereq
-[grid@rac1n1 stage-grid]$ ./runInstaller -silent -responseFile /tmp/grid_install.rsp -showProgress -ignorePrereq
+./runInstaller -silent -responseFile /tmp/grid_install.rsp -showProgress -ignorePrereq -ignoreSysPrereqs
+[grid@rac1n1 stage-grid]$ ./runInstaller -silent -responseFile /tmp/grid_install.rsp -showProgress -ignorePrereq -ignoreSysPrereqs
 Starting Oracle Universal Installer...
 
 Checking Temp space: must be greater than 415 MB.   Actual 30695 MB    Passed
