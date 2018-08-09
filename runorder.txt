@@ -1,0 +1,223 @@
+0. Comment out run-list of both nodes, and do vagrant up for each node
+    0a. vagrant up rac1n1
+    0b. vagrant up rac1n2
+
+00. Change password of 'oracle' user to 'oracle'
+--> Logon to each node by doing vagrant ssh nodename
+--> sudo to root
+--> run 'passwd oracle' and enter new password as oracle itself
+
+Note: The machine itself comes with two groups and a user:
+uid=54321(oracle) gid=54321(oinstall) groups=54321(oinstall),54322(dba)
+--> And, vagrant uses uid 54322
+--> Retain them, add 'create' blocks in users_and_groups - it will add if not there ...
+
+1. rac1n1 - 'recipe[cbora12crac1::users_and_groups]'
+1a. rac1n1 - logon and change password of 'oracle' user to 'oracle' (or as in attributes/default.rb) - TBD in cookbook
+1b. rac1n1 - logon and change password of 'grid' user to 'oracle' (or as in attributes/default.rb) - TBD in cookbook
+1c. rac1n1 - set firewall off (service firewalld stop) - TBD in cookbook
+1d. rac1n1 - set password of 'root' user to 'root'
+1e. rac1n1 - if /home/grid does not exist, create it and change its owner to grid:oinstall
+2. rac1n2 - 'recipe[cbora12crac1::users_and_groups]'
+2a. rac1n2 - logon and change password of 'oracle' user to 'oracle' (or as in attributes/default.rb) - TBD in cookbook
+2b. rac1n2 - logon and change password of 'grid' user to 'oracle' (or as in attributes/default.rb) - TBD in cookbook
+2c. rac1n2 - set firewall off (service firewalld stop) - TBD in cookbook
+2d. rac1n1 - set password of 'root' user to 'root'
+2e. rac1n1 - if /home/grid does not exist, create it and change its owner to grid:oinstall
+3. rac1n1 - 'recipe[cbora12crac1::update_etc_hosts]'
+4. rac1n2 - 'recipe[cbora12crac1::update_etc_hosts]'
+5. rac1n1 - 'recipe[cbora12crac1::install_sshpass]'
+6. rac1n2 - 'recipe[cbora12crac1::install_sshpass]'
+7. rac1n1 - 'recipe[cbora12crac1::setup_ssh]'
+7a. rac1n1 - 'recipe[cbora12crac1::setup_ssh_grid]'
+8. rac1n2 - 'recipe[cbora12crac1::setup_ssh]'
+8a. rac1n2 - 'recipe[cbora12crac1::setup_ssh_grid]'
+
+# IF DIRECTORIES RECIPE FAILS, RUN COMMANDS GIVEN BELOW
+8. rac1n1 - 'recipe[cbora12crac1::directories]'
+9. rac1n2 - 'recipe[cbora12crac1::directories]'
+mkdir -p /u01/app/oracle
+mkdir -p /u01/app/oraInventory
+mkdir -p /u01/app/gridbase
+mkdir -p /u01/app/gridhome12cr2
+chown oracle:oinstall /u01
+chown grid:oinstall /u01/app/oraInventory
+chown grid:oinstall /u01/app/gridbase
+chown grid:oinstall /u01/app/gridhome12cr2
+chown oracle:oinstall /u01/app
+chown oracle:oinstall /u01/app/oracle
+chmod 777 /u01/app
+chmod 755 /u01/app/oracle
+chmod 775 /u01/app/oraInventory
+chmod 755 /u01/app/gridbase
+chmod 755 /u01/app/gridhome12cr2
+
+10. rac1n1 - 'recipe[cbora12crac1::configure_oracleasm]','recipe[cbora12crac1::prepare_asm_disks]'
+
+11. not needed??as configure_oracleasm does both nodes:
+      rac1n2 - 'recipe[cbora12crac1::configure_oracleasm]'
+
+12a. NOT REQUIRED rac1n1 - set ownership of /dev/sdb etc to grid:oinstall - TBD in cookbook
+12b. NOT REQUIRED rac1n1 - set the permission permanently in /etc/rc.d - TBD in cookbook
+13a. NOT REQUIRED rac1n2 - set ownership of /dev/sdb etc to grid:oinstall - TBD in cookbook
+13b. NOT REQUIRED rac1n2 - set the permission permanently in /etc/rc.d - TBD in cookbook
+
+===============================================================================================================
+NOW - IMPORTANT - COMMENT OUT ALL RUN-LIST RECIPES - SO THAT THEY WONT KICK IN DURING RESTARTS OF VM's
+===============================================================================================================
+
+After this,
+Install grid/clusterware software
+Install oracle software
+See main steps below
+
+---------------------
+INSTALL GRID SOFTWARE
+---------------------
+On rac1n1 :
+Logon/sudo to 'grid' user
+cp /vagrant/grid_install.rsp /home/grid/grid_install/grid_install.rsp
+cd /stage-grid (which is a shared folder with laptop) and is the unzipped grid software folder 'grid' renamed as stage-grid
+nohup ./runInstaller -silent -responseFile /home/grid/grid_install/grid_install.rsp -showProgress -ignorePrereq -ignoreSysPrereqs > 1.out 2>> 1.out &
+
+SCREEN OUTPUT AND POST INSTALL STEPS:
+[grid@rac1n1 stage-grid]$ cat runinstall.sh
+./runInstaller -silent -responseFile /tmp/grid_install.rsp -showProgress -ignorePrereq -ignoreSysPrereqs
+[grid@rac1n1 stage-grid]$ ./runInstaller -silent -responseFile /tmp/grid_install.rsp -showProgress -ignorePrereq -ignoreSysPrereqs
+Starting Oracle Universal Installer...
+
+Checking Temp space: must be greater than 415 MB.   Actual 30695 MB    Passed
+Checking swap space: must be greater than 150 MB.   Actual 1023 MB    Passed
+Preparing to launch Oracle Universal Installer from /tmp/OraInstall2017-03-06_11-56-54AM. Please wait ...[grid@rac1n1 stage-grid]$ You can find the log of this install session at:
+ /u01/app/oraInventory/logs/installActions2017-03-06_11-56-54AM.log
+
+Prepare in progress.
+..................................................   7% Done.
+
+Prepare successful.
+
+Copy files in progress.
+..................................................   14% Done.
+..................................................   19% Done.
+..................................................   25% Done.
+..................................................   30% Done.
+..................................................   35% Done.
+..................................................   40% Done.
+....................
+Copy files successful.
+
+Link binaries in progress.
+..........
+Link binaries successful.
+..................................................   51% Done.
+
+Setup files in progress.
+
+Setup files successful.
+..................................................   56% Done.
+
+Setup Inventory in progress.
+
+Setup Inventory successful.
+..................................................   62% Done.
+
+Finish Setup successful.
+
+Perform remote operations in progress.
+
+Perform remote operations successful.
+..................................................   68% Done.
+
+Saving Cluster Inventory in progress.
+SEVERE:Remote 'AttachHome' failed on nodes: 'rac1n2'. Refer to '/u01/app/oraInventory/logs/installActions2017-03-06_11-56-54AM.log' for details.
+It is recommended that the following command needs to be manually run on the failed nodes:
+ /u01/app/gridhome12c/oui/bin/runInstaller -attachHome -noClusterEnabled ORACLE_HOME=/u01/app/gridhome12c ORACLE_HOME_NAME=OraGI12Home1 CLUSTER_NODES=rac1n1,rac1n2 -force "INVENTORY_LOCATION=/u01/app/oraInventory" LOCAL_NODE=<node on which command is to be run>.
+Please refer 'AttachHome' logs under central inventory of remote nodes where failure occurred for more details.
+..................................................   73% Done.
+
+Saving Cluster Inventory successful.
+The installation of Oracle Grid Infrastructure 12c was successful on the local node but failed on remote nodes.
+Please check '/u01/app/oraInventory/logs/silentInstall2017-03-06_11-56-54AM.log' for more details.
+
+Setup Oracle Base in progress.
+
+Setup Oracle Base successful.
+..................................................   82% Done.
+
+Prepare for configuration steps in progress.
+
+Prepare for configuration steps successful.
+..........
+Update Inventory in progress.
+SEVERE:Remote 'UpdateNodeList' failed on nodes: 'rac1n2'. Refer to '/u01/app/oraInventory/logs/UpdateNodeList2017-03-06_11-56-54AM.log' for details.
+It is recommended that the following command needs to be manually run on the failed nodes:
+ /u01/app/gridhome12c/oui/bin/runInstaller -updateNodeList -setCustomNodelist -noClusterEnabled ORACLE_HOME=/u01/app/gridhome12c CLUSTER_NODES=rac1n1,rac1n2 "NODES_TO_SET={rac1n1,rac1n2}" CRS=false  "INVENTORY_LOCATION=/u01/app/oraInventory" LOCAL_NODE=<node on which command is to be run>.
+Please refer 'UpdateNodeList' logs under central inventory of remote nodes where failure occurred for more details.
+[WARNING] [INS-10016] Installer failed to update the cluster related details, for this Oracle home, in the inventory on all/some of the nodes
+   ACTION: You may chose to retry the operation, without continuing further. Alternatively you can refer to information given below and manually execute the mentioned commands on the failed nodes now or later to update the inventory.
+*MORE DETAILS*
+
+Execute the following command on node(s) [rac1n2]:
+/u01/app/gridhome12c/oui/bin/runInstaller -jreLoc /u01/app/gridhome12c/jdk/jre -paramFile /u01/app/gridhome12c/oui/clusterparam.ini -silent -ignoreSysPrereqs -updateNodeList -bigCluster ORACLE_HOME=/u01/app/gridhome12c CLUSTER_NODES=<Local Node> "NODES_TO_SET={rac1n1,rac1n2}" -invPtrLoc "/u01/app/gridhome12c/oraInst.loc" -local
+
+
+Update Inventory successful.
+..................................................   95% Done.
+
+As a root user, execute the following script(s):
+        1. /u01/app/oraInventory/orainstRoot.sh
+        2. /u01/app/gridhome12c/root.sh
+
+Execute /u01/app/oraInventory/orainstRoot.sh on the following nodes:
+[rac1n1, rac1n2]
+Execute /u01/app/gridhome12c/root.sh on the following nodes:
+[rac1n1, rac1n2]
+
+Run the script on the local node first. After successful completion, you can start the script in parallel on all other nodes.
+
+..................................................   100% Done.
+Successfully Setup Software.
+As install user, execute the following script to complete the configuration.
+        1. /u01/app/gridhome12c/cfgtoollogs/configToolAllCommands RESPONSE_FILE=<response_file>
+
+        Note:
+        1. This script must be run on the same host from where installer was run.
+        2. This script needs a small password properties file for configuration assistants that require passwords (refer to install guide documentation).
+
+
+
+[grid@rac1n1 stage-grid]$
+[grid@rac1n1 stage-grid]$ id
+uid=54323(grid) gid=54321(oinstall) groups=54321(oinstall),54333(asmadmin),54334(asmdba) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+[grid@rac1n1 stage-grid]$
+
+CREATE /usr/local/tns:  (add this to cookbook)
+Logon as 'root'
+mkdir /usr/local/tns
+chown grid:oinstall /usr/local/tns
+chmod 775 /usr/local/tns
+
+Logon as 'grid'
+cd /usr/local/tns
+ln -s /u01/app/gridhome12c/network/admin/listener.ora
+
+ADD TO .bash_profile of both nodes' grid user as follows:
+export ORACLE_HOME=/u01/app/gridhome12c
+export PATH=$PATH:/u01/app/gridhome12c/bin
+export TNS_ADMIN=/usr/local/tns
+
+--------------------
+INSTALL DB SOFTWARE
+--------------------
+On rac1n1
+Logon to oracle id
+cd /stage-database - which is the shared folder of the VM with laptop.
+/stage-database is the 'database' folder from software unzip - and renamed from database to stage-database
+Copy /vagrant/db_install.rsp to /tmp
+./runInstaller -silent -responseFile /tmp/db_install.rsp -showProgress -ignorePrereq
+
+If you get the following error, disable firewall on both nodes and restart install.
+  [PRCF-2010 : All connections to the remote nodes got refused.
+  Cannot proceed with the file transfer. There has to be at least one remote node to send the installer files
+
+At the end, it will ask you to run root.sh on rac1n1 and rac1n2 - do that and you are done
