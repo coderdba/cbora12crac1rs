@@ -11,8 +11,13 @@ groupToUse=node[:oinstallGroup]
 bash 'configuring oracleasm driver on node1' do
   user "root"
   code <<-EOH
+    # NOT oinstall
     #oracleasm configure -e -u grid -g oinstall -s y  > /tmp/oracleasm.configure.node1.out
-    oracleasm configure -e -u grid -g asmdba -s y  > /tmp/oracleasm.configure.node1.out
+
+    # NOT asmdba
+    #oracleasm configure -e -u grid -g asmadmin -s y  > /tmp/oracleasm.configure.node1.out
+
+    oracleasm configure -e -u grid -g asmadmin -s y  > /tmp/oracleasm.configure.node1.out
     oracleasm init >> /tmp/oracleasm.configure.node1.out
   EOH
 end
